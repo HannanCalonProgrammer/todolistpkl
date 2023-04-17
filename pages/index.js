@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Inter } from "next/font/google";
 import styles from "...@/styles/Home.module.css";
 import Script from "next/script";
+import Link from "next/link";
 // import { useState } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -42,14 +43,11 @@ export default function Home() {
               <img src="LOGO.png" alt="" width="45px" />
             </div>
             <div className="col-md-6 mt-1 ">
-              <button type="button " class="btn text-white">
-                Home
+              <button type="button" class="btn text-white">
+                <Link href="/signup">Profile</Link>
               </button>
               <button type="button" class="btn text-white">
-                Profile
-              </button>
-              <button type="button" href="{/signup}" class="btn text-white">
-                Sign Up
+                <Link href="/signup">Sign Up</Link>
               </button>
             </div>
           </div>
@@ -69,14 +67,10 @@ export default function Home() {
         </div>
         <div className="container mt-5 ">
           <div className="row d-flex justify-content-center">
-            <div class=" col-1 ">
-              <button type="button" class="btn border text-white">
-                Login
-              </button>
-            </div>
+            <div class=" col-1 "></div>
             <div class=" col-2">
               <button type="button" class="btn border text-white">
-                Get Started
+                <Link href="/signup">Get Started</Link>
               </button>
             </div>
           </div>
