@@ -1,55 +1,34 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
+import pb from "../../config/pocketbase";
 
 export default function (props) {
   const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  if (pb.authStore.isValid) {
+    router.push("/home");
+  }
+
+  async function handleLogin() {
+    const authData = await pb
+      .collection("users")
+      .authWithPassword(email, password);
+
+    if (pb.authStore.isValid) {
+      router.push("/home");
+    }
+  }
+
   return (
-    // <div className="Auth-form-container container">
-    //   <form className="Auth-form">
-    //     <div className="Auth-form-content">
-    //       <h3 className="Auth-form-title">Sign Up</h3>
-    //       <div className="form-group mt-3">
-    //         <label>Add The Username</label>
-    //         <input
-    //           type="password"
-    //           className="form-control mt-1"
-    //           placeholder="Enter Username"
-    //         />
-    //       </div>
-    //       <div className="form-group mt-3">
-    //         <label>Email address</label>
-    //         <input
-    //           type="email"
-    //           className="form-control mt-1"
-    //           placeholder="Enter email"
-    //         />
-    //       </div>
-    //       <div className="form-group mt-3">
-    //         <label>Password</label>
-    //         <input
-    //           type="password"
-    //           className="form-control mt-1"
-    //           placeholder="Enter password"
-    //         />
-    //       </div>
-    //       <div className="d-grid gap-2 mt-3">
-    //         <button type="submit" className="btn btn-primary">
-    //           Submit
-    //         </button>
-    //       </div>
-    //       <p className="forgot-password text-right mt-2">
-    //         Forgot <a href="#">password?</a>
-    //       </p>
-    //     </div>
-    //   </form>
-    // </div>
     <div className="Auth-form-container">
       <form
         className="Auth-form"
         onSubmit={(e) => {
           e.preventDefault();
-          router.push("/");
+          handleLogin();
         }}
       >
         <h3>Sign In</h3>
@@ -57,6 +36,8 @@ export default function (props) {
           <label>Email address</label>
           <input
             type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             className="form-control"
             placeholder="Enter email"
           />
@@ -64,6 +45,8 @@ export default function (props) {
         <div className="mb-3">
           <label>Password</label>
           <input
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             type="password"
             className="form-control"
             placeholder="Enter password"

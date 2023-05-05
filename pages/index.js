@@ -5,6 +5,8 @@ import { Roboto } from "next/font/google";
 import styles from "...@/styles/Home.module.css";
 import Script from "next/script";
 import Link from "next/link";
+import pb from "../config/pocketbase";
+import { useRouter } from "next/router";
 // import { useState } from "react";
 
 const roboto = Roboto({
@@ -14,6 +16,7 @@ const roboto = Roboto({
 });
 
 export default function Home() {
+  const router = useRouter();
   // const [todo, setTodo] = useState(null);
 
   // const getTodo = async () => {
@@ -48,11 +51,35 @@ export default function Home() {
               <img src="LOGO.png" alt="" width="60px" />
             </div>
             <div className="col-md-6 mt-1 ">
-              <button type="button" class="btn text-white">
-                <Link href="/signup">Profile</Link>
+              <button
+                type="button"
+                class="btn text-white"
+                onClick={() => {
+                  pb.authStore.clear();
+                  router.push("/signin");
+                }}
+              >
+                Profile
               </button>
-              <button type="button" class="btn text-white">
-                <Link href="/signup">Sign Up</Link>
+              <button
+                type="button"
+                class="btn text-white"
+                onClick={() => {
+                  pb.authStore.clear();
+                  router.push("/signin");
+                }}
+              >
+                Sign In
+              </button>
+              <button
+                type="button"
+                class="btn text-white"
+                onClick={() => {
+                  pb.authStore.clear();
+                  router.push("/signin");
+                }}
+              >
+                Log Out
               </button>
             </div>
           </div>
@@ -82,8 +109,15 @@ export default function Home() {
           <div className="row d-flex justify-content-right">
             <div class=" col-1 "></div>
             <div class=" col-2">
-              <button type="button" class="btn border text-white">
-                <Link href="/home">Get Started</Link>
+              <button
+                type="button"
+                class="btn text-white"
+                onClick={() => {
+                  pb.authStore.clear();
+                  router.push("/signin");
+                }}
+              >
+                Get Started
               </button>
             </div>
           </div>
