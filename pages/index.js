@@ -1,12 +1,17 @@
 import Head from "next/head";
 import Image from "next/image";
-import { Inter } from "next/font/google";
+import { Roboto } from "next/font/google";
+
 import styles from "...@/styles/Home.module.css";
 import Script from "next/script";
 import Link from "next/link";
 // import { useState } from "react";
 
-const inter = Inter({ subsets: ["latin"] });
+const roboto = Roboto({
+  weight: ["400", "700"],
+  style: ["normal", "italic"],
+  subsets: ["latin"],
+});
 
 export default function Home() {
   // const [todo, setTodo] = useState(null);
@@ -40,7 +45,7 @@ export default function Home() {
         <div className="container">
           <div className="row ">
             <div className="col-md-6 mt-1">
-              <img src="LOGO.png" alt="" width="45px" />
+              <img src="LOGO.png" alt="" width="60px" />
             </div>
             <div className="col-md-6 mt-1 ">
               <button type="button" class="btn text-white">
@@ -52,25 +57,33 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="container">
+        <div className={roboto.className}>
           <div className="row justify-content-center mt-5">
             <div className="col-md-5">
-              <h1 className="text-white display-2">Make Your</h1>
-              <h1 className="text-white display-2">Planing</h1>
-              <h4 className="text-white display-6">You can write and list</h4>
-              <h4 className="text-white display-6">What you like</h4>
+              <h1 className="text-white font-weight-bold display-3 fw-bold">
+                Make Your
+              </h1>
+              <h1 className="text-white font-weight-bold display-3 fw-bold">
+                Planning
+              </h1>
+              <h4 className="text-white font-weight-bold display-6 fw-bold">
+                You can write and list
+              </h4>
+              <h4 className="text-white font-weight-bold display-6 fw-bold">
+                What you like
+              </h4>
             </div>
             <div className="col-md-5">
-              <img src="kalender.jpg" alt="" width="350px" />
+              <img src="kalenderbaru.png" alt="" width="500px" />
             </div>
           </div>
         </div>
-        <div className="container mt-5 ">
-          <div className="row d-flex justify-content-center">
+        <div className="container mt-6 ">
+          <div className="row d-flex justify-content-right">
             <div class=" col-1 "></div>
             <div class=" col-2">
               <button type="button" class="btn border text-white">
-                <Link href="/signup">Get Started</Link>
+                <Link href="/home">Get Started</Link>
               </button>
             </div>
           </div>
