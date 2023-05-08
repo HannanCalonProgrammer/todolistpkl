@@ -1,8 +1,26 @@
 import Link from "next/link";
 import React, { useState } from "react";
+import PocketBase from "pocketbase";
+const pb = new PocketBase("http://127.0.0.1:8090");
 
 export default function (props) {
   let [authMode, setAuthMode] = useState("signin");
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const pb = new PocketBase("http://127.0.0.1:8090");
+
+    const data = {
+      username: event.target.username.value,
+      email: event.target.email.value,
+      password: event.target.password.value,
+      passwordConfirm: event.target.passwordConfirm.value,
+    };
+
+    console.log(data);
+
+    await pb.collection("users").create(data);
+  };
 
   const changeAuthMode = () => {
     setAuthMode(authMode === "signin" ? "signup" : "signin");
@@ -10,147 +28,14 @@ export default function (props) {
 
   if (authMode === "signin") {
     return (
-      //       <div className="Auth-form-container">
-      //         <form className="Auth-form flex-justify-center">
-      //           <div className="Auth-form-content">
-      //             <h3 className="Auth-form-title">Sign Up</h3>
-      //             <div className="text-center">
-      //               Not registered yet?{" "}
-      //               <span className="link-primary" onClick={changeAuthMode}>
-      //                 Sign Up Now
-      //               </span>
-      //             </div>
-      //             <div className="form-group mt-3">
-      //               <label>Add The Username</label>
-      //               <input
-      //                 type="email"
-      //                 className="form-control mt-1"
-      //                 placeholder="Enter username"
-      //               />
-      //             </div>
-      //             <div className="form-group mt-3">
-      //               <label>Email address</label>
-      //               <input
-      //                 type="email"
-      //                 className="form-control mt-1"
-      //                 placeholder="Enter email"
-      //               />
-      //             </div>
-      //             <div className="form-group mt-3">
-      //               <label>Password</label>
-      //               <input
-      //                 type="password"
-      //                 className="form-control mt-1"
-      //                 placeholder="Enter password"
-      //               />
-      //             </div>
-      //             <div className="d-grid gap-2 mt-3">
-      //               <button type="submit" className="btn btn-primary">
-      //                 Sign Up
-      //               </button>
-      //             </div>
-      //             <p className="text-center mt-2">
-      //               Forgot <a href="#">Password?</a>
-      //             </p>
-      //           </div>
-      //         </form>
-      //       </div>
-      //     );
-      //   }
-
-      //   return (
-      //     <div className="Auth-form-container">
-      //       <form className="Auth-form">
-      //         <div className="Auth-form-content">
-      //           <h3 className="Auth-form-title">Sign Up</h3>
-      //           <div className="text-center">
-      //             Already registered?{" "}
-      //             <span className="link-primary" onClick={changeAuthMode}>
-      //               Sign Up
-      //             </span>
-      //           </div>
-      //           <div className="form-group mt-3">
-      //             <label>Full Name</label>
-      //             <input
-      //               type="email"
-      //               className="form-control mt-1"
-      //               placeholder="e.g Jane Doe"
-      //             />
-      //           </div>
-      //           <div className="form-group mt-3">
-      //             <label>Email address</label>
-      //             <input
-      //               type="email"
-      //               className="form-control mt-1"
-      //               placeholder="Email Address"
-      //             />
-      //           </div>
-      //           <div className="form-group mt-3">
-      //             <label>Password</label>
-      //             <input
-      //               type="password"
-      //               className="form-control mt-1"
-      //               placeholder="Password"
-      //             />
-      //           </div>
-      //           <div className="d-grid gap-2 mt-3">
-      //             <button type="submit" className="btn btn-primary">
-      //               Sign Up
-      //             </button>
-      //           </div>
-      //           <p className="text-center mt-2">
-      //             Forgot <a href="#">password?</a>
-      //           </p>
-      //         </div>
-      //       </form>
-      //     </div>
-      //   <form>
-      //     <h3>Sign In</h3>
-      //     <div className="mb-3">
-      //       <label>Email address</label>
-      //       <input
-      //         type="email"
-      //         className="form-control"
-      //         placeholder="Enter email"
-      //       />
-      //     </div>
-      //     <div className="mb-3">
-      //       <label>Password</label>
-      //       <input
-      //         type="password"
-      //         className="form-control"
-      //         placeholder="Enter password"
-      //       />
-      //     </div>
-      //     <div className="mb-3">
-      //       <div className="custom-control custom-checkbox">
-      //         <input
-      //           type="checkbox"
-      //           className="custom-control-input"
-      //           id="customCheck1"
-      //         />
-      //         <label className="custom-control-label" htmlFor="customCheck1">
-      //           Remember me
-      //         </label>
-      //       </div>
-      //     </div>
-      //     <div className="d-grid">
-      //       <button type="submit" className="btn btn-primary">
-      //         Submit
-      //       </button>
-      //     </div>
-      //     <p className="forgot-password text-right">
-      //       Forgot <a href="#">password?</a>
-      //     </p>
-      //   </form>
-      // );
       <div className="Auth-form-container">
-        <form className="Auth-form">
+        <form className="Auth-form" onSubmit={handleSubmit}>
           <h3>Sign Up</h3>
           <div className="mb-3">
             <label>Add The Username</label>
             <input
-              type="username"
+              name="username"
+              type="text"
               className="form-control"
               placeholder="Enter username"
             />
@@ -158,6 +43,7 @@ export default function (props) {
           <div className="mb-3">
             <label>Email address</label>
             <input
+              name="email"
               type="email"
               className="form-control"
               placeholder="Enter email"
@@ -166,22 +52,20 @@ export default function (props) {
           <div className="mb-3">
             <label>Password</label>
             <input
+              name="password"
               type="password"
               className="form-control"
               placeholder="Enter password"
             />
           </div>
           <div className="mb-3">
-            <div className="custom-control custom-checkbox">
-              <input
-                type="checkbox"
-                className="custom-control-input"
-                id="customCheck1"
-              />
-              <label className="custom-control-label" htmlFor="customCheck1">
-                Remember me
-              </label>
-            </div>
+            <label>Confirm Password</label>
+            <input
+              name="passwordConfirm"
+              type="password"
+              className="form-control"
+              placeholder="Enter password"
+            />
           </div>
           <div className="d-grid">
             <button type="submit" className="btn btn-primary">
