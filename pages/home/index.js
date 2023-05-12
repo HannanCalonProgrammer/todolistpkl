@@ -1,3 +1,11 @@
+import Header from "../../components/Header"
+import Navbar from "../../components/navbar"
+
 export default function home() {
-  return <div className=""></div>;
+  return(
+    <>
+    <Navbar />
+    <Header/>
+    </>
+  )
 }
