@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 import { Roboto } from "next/font/google";
+import Footer from "../../components/footer"
 
 import styles from "...@/styles/Home.module.css";
 import Script from "next/script";
