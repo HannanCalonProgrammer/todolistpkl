@@ -1,11 +1,11 @@
-import Header from "../../components/Header"
-import Navbar from "../../components/navbar"
+import Header from "../../components/Header";
+import Navbar from "../../components/Navbar";
 
 export default function home() {
-  return(
+  return (
     <>
-    <Navbar />
-    <Header/>
+      <Navbar />
+      <Header />
     </>
-  )
+  );
 }
