@@ -47,14 +47,13 @@ export default function Home() {
       <div className={`${styles.bg}`}>
         <div className="container">
           <div className="row ">
-          <input type="text" placeholder="Type here" className="input input-bordered w-full max-w-xs" />
             <div className="col-md-6 mt-1">
               <img src="LOGO.png" alt="" width="60px" />
             </div>
             <div className="col-md-6 mt-1 ">
               <button
                 type="button"
-                class="btn btn-ghost-/- text-white"
+                class="btn btn-ghost text-white"
                 onClick={() => {
                   pb.authStore.clear();
                   router.push("/signin");

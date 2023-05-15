@@ -20,7 +20,6 @@ export default function (props) {
     if (pb.authStore.isValid) {
       router.push("/home");
     }
-
     console.log(authData);
   }
 
