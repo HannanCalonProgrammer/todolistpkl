@@ -80,7 +80,7 @@ export default function Home() {
                   router.push("/signin");
                 }}
               >
-                Log Out
+                Contact Us
               </button>
             </div>
           </div>
