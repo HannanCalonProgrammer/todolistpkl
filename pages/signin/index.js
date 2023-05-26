@@ -49,7 +49,9 @@ export default function (props) {
           </label>
         </div>
         <div className="form-control mt-6">
-          <button className="btn bg-sky-950 text-white">Sign in</button>
+          <a href="/home">
+          <button className="btn w-full bg-sky-950 text-white">Sign in</button>
+          </a>
         </div>
       </div>
     </div>
