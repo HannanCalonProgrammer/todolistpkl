@@ -1,21 +1,17 @@
-
-
-import Header from "../../components/Header"
-import Navbar from "../../components/navbar"
-import Tabel from "../../components/Tabel"
-import Footer from "../../components/Footer"
+import Header from "../../components/Header";
+import Navbar from "../../components/Navbar";
+import Tabel from "../../components/Tabel";
+import Footer from "../../components/Footer";
 
 export default function home() {
-  return(
-    
+  return (
     <>
       <Navbar />
       <div className="flex w-screen">
-    <Header/>
-    <Tabel/>
-
+        <Header />
+        <Tabel />
       </div>
-    <Footer/>
+      <Footer />
     </>
-  )
+  );
 }
