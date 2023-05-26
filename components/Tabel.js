@@ -42,15 +42,22 @@ export default function TableCard() {
           +
         </button>
       </div>
-      <div className="flex  gap-4 m-3">
+      <div className="flex flex-wrap  gap-4 m-3">
         {tasks.map((task) => (
           <>
-            <div key={task.id} className="card w-72 bg-black shadow-xl h-60">
+            <div key={task.id} className="card w-72 bg-black h-max shadow-xl">
               <div className="card-body text-white">
-                <h2 className="card-title">{task.judul}</h2>
-                <p></p>
-                <div className="card-actions justify-end">
+                <h2
+                  className={`${
+                    task.done == "on" ? "line-through" : ""
+                  } card-title`}
+                >
+                  {task.judul}
+                </h2>
+                <p className={task.done == "on" ? "line-through" : ""}>
                   {task.desc}
+                </p>
+                <div className="">
                   <label
                     htmlFor={`task-${task.id}`}
                     className="btn btn-primary"
