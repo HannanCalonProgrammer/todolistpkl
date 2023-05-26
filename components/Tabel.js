@@ -74,7 +74,7 @@ export default function TableCard() {
                   onChange={(e) => handleChange(e, task.id)}
                   value={task.judul}
                   placeholder="Judul"
-                  className="input input-bordered w-full max-w-xs"
+                  className="textarea textarea-bordered"
                 />
                 <input
                   type="text"
@@ -82,7 +82,7 @@ export default function TableCard() {
                   onChange={(e) => handleChange(e, task.id)}
                   name="desc"
                   placeholder="Desckripsi"
-                  className="input input-bordered w-full max-w-xs"
+                  className="textarea textarea-bordered"
                 />
                 <input
                   type="checkbox"
