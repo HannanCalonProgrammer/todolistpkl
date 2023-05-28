@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 import { Roboto } from "next/font/google";
-import Footer from "../components/Footer"
+import Footer from "../components/Footer";
 
 import styles from "...@/styles/Home.module.css";
 import Script from "next/script";
@@ -54,7 +54,7 @@ export default function Home() {
             <div className="col-md-6 mt-1 ">
               <button
                 type="button"
-                class="btn btn-ghost text-white"
+                className="btn btn-ghost text-white"
                 onClick={() => {
                   pb.authStore.clear();
                   router.push("/signin");
@@ -64,7 +64,7 @@ export default function Home() {
               </button>
               <button
                 type="button"
-                class="btn btn-ghost text-white"
+                className="btn btn-ghost text-white"
                 onClick={() => {
                   pb.authStore.clear();
                   router.push("/signin");
@@ -74,7 +74,7 @@ export default function Home() {
               </button>
               <button
                 type="button"
-                class="btn btn-ghost text-white"
+                className="btn btn-ghost text-white"
                 onClick={() => {
                   pb.authStore.clear();
                   router.push("/signin");
@@ -108,11 +108,11 @@ export default function Home() {
         </div>
         <div className="container mt-6 ">
           <div className="row d-flex justify-content-right">
-            <div class=" col-1 "></div>
-            <div class=" col-2">
+            <div className=" col-1 "></div>
+            <div className=" col-2">
               <button
                 type="button"
-                class="btn btn-ghost text-white"
+                className="btn btn-ghost text-white"
                 onClick={() => {
                   pb.authStore.clear();
                   router.push("/signin");
