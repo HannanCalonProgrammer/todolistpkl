@@ -1,79 +1,233 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import pb from "../config/pocketbase";
 
 export default function TableCard() {
-  const [tasks, setTasks] = useState([
-    {
-      id: Math.random(),
-      judul: "Judul",
-      desc: "Ini adalah projek pkl kelompok 1",
-      done: "on",
-    },
-  ]);
+  const [tasks, setTasks] = useState([]);
+  const modalCreateRef = useRef(null);
+  const [loading, setLoading] = useState(false);
+  const [showAlert, setShowAlert] = useState({
+    show: false,
+    text: "",
+  });
 
-  function handleChange(e, id) {
+  const getMyTasks = async () => {
+    const records = await pb.collection("tasks").getFullList({
+      sort: "-created",
+      filter: `user = "${pb.authStore.model.id}"`,
+    });
+
+    setTasks(records);
+  };
+
+  const createTask = async (e) => {
+    e.preventDefault();
+    const {
+      judul: { value: judulValue },
+      deskripsi: { value: descValue },
+    } = e.target;
+
+    if (!judulValue || !descValue) return alert("Please fill all fields");
+
+    setLoading(true);
+    await pb.collection("tasks").create({
+      user: pb.authStore.model.id,
+      judul: judulValue,
+      deskripsi: descValue,
+      selesai: false,
+    });
+    await getMyTasks();
+    e.target.reset();
+    modalCreateRef.current.click();
+    setLoading(false);
+  };
+
+  const editTask = async (e, id) => {
+    e.preventDefault();
+    const {
+      judul: { value: judulValue },
+      deskripsi: { value: descValue },
+    } = e.target;
+
+    if (!judulValue || !descValue) return alert("Please fill all fields");
+
+    setLoading(true);
+    await pb.collection("tasks").update(id, {
+      judul: judulValue,
+      deskripsi: descValue,
+    });
+    await getMyTasks();
+    e.target.reset();
+    setLoading(false);
+    setShowAlert({
+      show: true,
+      text: "Task updated successfully",
+    });
+
+    setTimeout(() => {
+      setShowAlert({
+        show: false,
+        text: "",
+      });
+    }, 2000);
+  };
+
+  const handleSelesai = async (e, id, hasCheck) => {
     setTasks((prev) =>
       prev.map((task) => {
-        if (task.id == id)
+        if (task.id === id) {
           return {
             ...task,
-            [e.target.name]: e.target.value,
+            selesai: !task.selesai,
           };
+        }
         return task;
       })
     );
-  }
+
+    await pb.collection("tasks").update(id, {
+      selesai: !hasCheck,
+    });
+    await getMyTasks();
+  };
+
+  const deleteTask = async (id) => {
+    setLoading(true);
+    await pb.collection("tasks").delete(id);
+    await getMyTasks();
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    getMyTasks();
+  }, []);
 
   return (
     <>
       <div>
-        <button
+        <label
+          htmlFor="create-modal"
           className="btn btn-circle fixed right-0 bottom-0 text-3xl"
-          onClick={() =>
-            setTasks((prev) => [
-              ...prev,
-              {
-                id: Math.random(),
-                judul: "Task Baru",
-                desc: "Tambahlan deskripsi",
-              },
-            ])
-          }
         >
           +
-        </button>
+        </label>
       </div>
       <div className="flex flex-wrap  gap-4 m-3">
-        {tasks.map((task) => (
-          <>
-            <div key={task.id} className="card w-72 bg-black h-max shadow-xl">
+        {tasks?.map((task) => (
+          <div key={task.id}>
+            <div className="card w-72 bg-black h-max shadow-xl">
               <div className="card-body text-white">
                 <h2
-                  className={`${
-                    task.done == "on" ? "line-through" : ""
-                  } card-title`}
+                  className={`${task.selesai ? "line-through" : ""} card-title`}
                 >
                   {task.judul}
                 </h2>
-                <p className={task.done == "on" ? "line-through" : ""}>
-                  {task.desc}
+                <p className={task.selesai ? "line-through" : ""}>
+                  {task.deskripsi}
                 </p>
-                <div className="">
+                <div className="flex w-full justify-between">
                   <label
-                    htmlFor={`task-${task.id}`}
-                    className="btn btn-primary"
+                    htmlFor={`edit-modal-${task.id}`}
+                    className={`btn btn-primary ${
+                      task.selesai || loading ? "btn-disabled" : ""
+                    }`}
                   >
                     Edit
                   </label>
+                  <button
+                    disabled={loading}
+                    onClick={() => deleteTask(task.id)}
+                    className="btn btn-error"
+                  >
+                    Delete
+                  </button>
+                  <input
+                    type="checkbox"
+                    checked={task.selesai}
+                    onChange={(e) => handleSelesai(e, task.id, task.selesai)}
+                    className="checkbox"
+                  />
                 </div>
               </div>
             </div>
 
             <input
               type="checkbox"
-              id={`task-${task.id}`}
+              id={`edit-modal-${task.id}`}
               className="modal-toggle"
             />
-            <div className="modal">
+            <div className="modal" id={`edit-modal-${task.id}`}>
+              <div className="modal-box">
+                <h3 className="font-bold text-lg">Edit</h3>
+                {showAlert.show && (
+                  <div className="alert alert-success shadow-lg mt-4">
+                    <div>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="stroke-current flex-shrink-0 h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                      </svg>
+                      <span>{showAlert.text}</span>
+                    </div>
+                  </div>
+                )}
+                <form
+                  onSubmit={(e) => editTask(e, task.id)}
+                  className="flex flex-col gap-4 mt-4"
+                >
+                  <input
+                    type="text"
+                    placeholder="Judul"
+                    name="judul"
+                    defaultValue={task.judul}
+                    className="input w-full input-bordered input-lg"
+                  />
+                  <textarea
+                    className="textarea textarea-bordered textarea-lg"
+                    placeholder="Deskripsi"
+                    defaultValue={task.deskripsi}
+                    name="deskripsi"
+                  />
+                  <button
+                    className="hidden"
+                    id={`btn-edit-${task.id}`}
+                    type="submit"
+                  />
+                </form>
+                <div className="modal-action">
+                  <label
+                    htmlFor={`edit-modal-${task.id}`}
+                    className={`btn ${loading ? "btn-disabled" : ""}`}
+                  >
+                    Cancel
+                  </label>
+                  <label
+                    htmlFor={`btn-edit-${task.id}`}
+                    className={`btn-success btn ${
+                      loading ? "btn-disabled" : ""
+                    }`}
+                  >
+                    Save
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+
+        {/* <input
+              type="checkbox"
+              id={`task-${task.id}`}
+              className="modal-toggle"
+            /> */}
+        {/* <div className="modal">
               <div className="modal-box">
                 <input
                   type="text"
@@ -106,9 +260,7 @@ export default function TableCard() {
                   </label>
                 </div>
               </div>
-            </div>
-          </>
-        ))}
+            </div> */}
         {/* <div className="card w-72 bg-black shadow-xl h-60">
             <div className="card-body text-white">
                 <h2 className="card-title">Card title!</h2>
@@ -127,6 +279,42 @@ export default function TableCard() {
                 </div>
             </div>
             </div> */}
+      </div>
+
+      <input type="checkbox" id="create-modal" className="modal-toggle" />
+      <div className="modal">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg">Create New Task</h3>
+          <form onSubmit={createTask} className="flex flex-col gap-4 mt-4">
+            <input
+              type="text"
+              placeholder="Judul"
+              name="judul"
+              className="input w-full input-bordered input-lg"
+            />
+            <textarea
+              className="textarea textarea-bordered textarea-lg"
+              placeholder="Deskripsi"
+              name="deskripsi"
+            />
+            <button className="hidden" id="btn-create" type="submit" />
+          </form>
+          <div className="modal-action">
+            <label
+              htmlFor="create-modal"
+              className={`btn ${loading ? "btn-disabled" : ""}`}
+              ref={modalCreateRef}
+            >
+              Cancel
+            </label>
+            <label
+              htmlFor="btn-create"
+              className={`btn-success btn ${loading ? "btn-disabled" : ""}`}
+            >
+              Create
+            </label>
+          </div>
+        </div>
       </div>
     </>
   );
