@@ -7,11 +7,9 @@ export default function Navbar() {
   const router = useRouter();
 
   return (
-    <div className="navbar bg-black">
+    <div className="navbar ">
       <div className="flex-1">
-        <a className="btn btn-ghost normal-case text-xl text-white">
-          Daily App
-        </a>
+        <a className="btn btn-ghost normal-case text-xl ">Daily App</a>
       </div>
       <div>
         <input

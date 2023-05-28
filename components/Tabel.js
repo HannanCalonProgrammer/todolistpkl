@@ -102,7 +102,7 @@ export default function TableCard() {
   }, []);
 
   return (
-    <>
+    <div className="bg-white w-full">
       <div>
         <label
           htmlFor="create-modal"
@@ -316,6 +316,6 @@ export default function TableCard() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
