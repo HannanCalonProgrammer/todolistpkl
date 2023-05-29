@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import pb from "../config/pocketbase";
+import { BiSearch } from "react-icons/bi";
 
 export default function TableCard() {
   const [tasks, setTasks] = useState([]);

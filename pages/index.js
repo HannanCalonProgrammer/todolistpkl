@@ -51,7 +51,7 @@ export default function Home() {
             <div className="col-md-6 mt-1">
               <img src="LOGO.png" alt="" width="60px" />
             </div>
-            <div className="col-md-6 mt-1 ">
+            <div className="col-md-6 col-xs-12 d-flex justify-content-end ">
               <button
                 type="button"
                 className="btn btn-ghost text-white"
@@ -87,7 +87,7 @@ export default function Home() {
         </div>
         <div className={roboto.className}>
           <div className="row justify-content-center mt-5">
-            <div className="col-md-5">
+            <div className="col-md-5 mt-10">
               <h1 className="text-white font-weight-bold display-3 fw-bold">
                 Make Your
               </h1>
@@ -112,7 +112,7 @@ export default function Home() {
             <div className=" col-2">
               <button
                 type="button"
-                className="btn btn-ghost text-white"
+                className="btn btn-colour-#94a3b8 text-white"
                 onClick={() => {
                   pb.authStore.clear();
                   router.push("/signin");

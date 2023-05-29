@@ -59,6 +59,7 @@ export default function (props) {
               placeholder="password"
               className="input input-bordered bg-white text-black"
             />
+
             <label className="label">
               <a
                 href="/signup"
