@@ -124,6 +124,7 @@ export default function TableCard() {
                 <p className={task.selesai ? "line-through" : ""}>
                   {task.deskripsi}
                 </p>
+                <p>{task.created}</p>
                 <div className="flex w-full justify-between">
                   <label
                     htmlFor={`edit-modal-${task.id}`}
