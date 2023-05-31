@@ -125,7 +125,7 @@ export default function TableCard() {
                 <p className={task.selesai ? "line-through" : ""}>
                   {task.deskripsi}
                 </p>
-                <p>{task.created}</p>
+                <p>{new Date(task.created).toLocaleDateString("id-ID")}</p>
                 <div className="flex w-full justify-between">
                   <label
                     htmlFor={`edit-modal-${task.id}`}
