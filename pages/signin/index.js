@@ -8,6 +8,7 @@ export default function (props) {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   useEffect(() => {
     if (pb.authStore.isValid) {
@@ -23,8 +24,8 @@ export default function (props) {
       if (authData.token) {
         router.push("/home");
       }
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      setError(err.data.message);
     }
   }
 
@@ -59,7 +60,26 @@ export default function (props) {
               placeholder="password"
               className="input input-bordered bg-white text-black"
             />
-
+            {error && (
+              <div className="alert alert-error shadow-lg my-2">
+                <div>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="stroke-current flex-shrink-0 h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                  <span>{error}</span>
+                </div>
+              </div>
+            )}
             <label className="label">
               <a
                 href="/signup"
@@ -69,6 +89,7 @@ export default function (props) {
               </a>
             </label>
           </div>
+
           <div className="form-control mt-6">
             <button
               onClick={handleLogin}
